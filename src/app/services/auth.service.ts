@@ -38,4 +38,15 @@ export class AuthService {
     }
     return null;
   }
+
+  isAdmin(): boolean {
+    var token = this.getToken();
+    // aksdfjhkasdjhfkasd.lasdfjlasdjflsdkf.lasdfkjlsadkjflsdkfj
+    var payload = token.split('.')[1];
+    var payloadDecoded = atob(payload);
+    var values = JSON.parse(payloadDecoded);
+    var roles = values['cognito:groups'];
+    var isAdmin = roles.indexOf('ROLE_ADMIN') < 0 ? false: true;
+    return isAdmin;
+  }
 }

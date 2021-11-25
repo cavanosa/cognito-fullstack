@@ -14,7 +14,11 @@ export class ApiRestService {
     private httpClient: HttpClient
   ) { }
 
-  public getHello():Observable<any> {
-    return this.httpClient.get<any>(this.springURL + 'hello');
+  public getHelloAdmin():Observable<any> {
+    return this.httpClient.get<any>(this.springURL + 'hello-admin');
+  }
+
+  public getHelloUser():Observable<any> {
+    return this.httpClient.get<any>(this.springURL + 'hello-user');
   }
 }

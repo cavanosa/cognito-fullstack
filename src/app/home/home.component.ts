@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { ApiRestService } from './../services/api-rest.service';
 import { Component, OnInit } from '@angular/core';
 import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
@@ -21,16 +22,16 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private apiRestService: ApiRestService
+    private apiRestService: ApiRestService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.apiRestService.getHello().subscribe(data => {
-      this.message = data.message;
-    },
-    err => {
-      alert(err.message || JSON.stringify(err));
-    })
+   if( this.authService.isAdmin()) {
+     this.messageHelloAdmin();
+   } else {
+     this.messageHelloUser();
+   }
   }
 
   onLogout(): void {
@@ -57,6 +58,24 @@ export class HomeComponent implements OnInit {
         this.attributes.forEach((attr: CognitoUserAttribute) => console.log(attr.Name + ' = ' + attr.Value));
       });
     });
+  }
+
+  messageHelloAdmin(): void {
+    this.apiRestService.getHelloAdmin().subscribe(data => {
+      this.message = data.message;
+    },
+    err => {
+      alert(err.message || JSON.stringify(err));
+    })
+  }
+
+  messageHelloUser(): void {
+    this.apiRestService.getHelloUser().subscribe(data => {
+      this.message = data.message;
+    },
+    err => {
+      alert(err.message || JSON.stringify(err));
+    })
   }
 
 }
