@@ -1,3 +1,4 @@
+import { ApiRestService } from './../services/api-rest.service';
 import { Component, OnInit } from '@angular/core';
 import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import { environment } from 'src/environments/environment';
@@ -10,6 +11,8 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
+  message: string;
+
   attributes: CognitoUserAttribute[];
   poolData = {
     UserPoolId: environment.UserPoolId, // Your user pool id here
@@ -17,10 +20,17 @@ export class HomeComponent implements OnInit {
   };
 
   constructor(
-    private router: Router
+    private router: Router,
+    private apiRestService: ApiRestService
   ) { }
 
   ngOnInit(): void {
+    this.apiRestService.getHello().subscribe(data => {
+      this.message = data.message;
+    },
+    err => {
+      alert(err.message || JSON.stringify(err));
+    })
   }
 
   onLogout(): void {

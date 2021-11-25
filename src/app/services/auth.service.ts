@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
 import { environment } from 'src/environments/environment';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,5 +27,15 @@ export class AuthService {
       });
     }
     return isAuth;
+  }
+
+  getToken(): string {
+    for (let i = 0; i < localStorage.length; i++ ) {
+      if(localStorage.key(i).endsWith(environment.ACCESS_TOKEN) && localStorage.key(i).includes(environment.ClientId)) {
+        console.log(localStorage.getItem(localStorage.key(i)));
+        return localStorage.getItem(localStorage.key(i));
+      }
+    }
+    return null;
   }
 }
