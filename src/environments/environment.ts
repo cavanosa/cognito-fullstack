@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  UserPoolId: 'us-east-1_fXJtKQCyP',
-  ClientId: '1ks40rbtmor4uas19vqos16rqm'
+  UserPoolId: 'your-user-pool-id',
+  ClientId: 'your-client-id',
 };
 
 /*
